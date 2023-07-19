@@ -3,8 +3,10 @@ module.exports = {
     content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
     theme: {
         extend: {
-            'weather-primary': '#1E213A',
-            'weather-secondary': '#100E1D'
+            colors: {
+                'weather-primary': '#264653',
+                'weather-secondary': '#2a9d8f'
+            }
         },
         fontFamily: {
             Roboto: ['Roboto', 'sans-serif']
