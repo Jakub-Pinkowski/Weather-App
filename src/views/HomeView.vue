@@ -21,6 +21,7 @@
                         v-for="searchResult in openWeatherSearchResults"
                         :key="searchResult.lat"
                         class="py-2 cursor-pointer"
+                        @click="previewCity(searchResult)"
                     >
                         {{ searchResult.name }}, {{ searchResult.country
                         }}<span v-if="searchResult.state">, {{ searchResult.state }}</span>
@@ -32,8 +33,9 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios'
 import { ref } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
 
 interface LocationObject {
     name: string
@@ -67,6 +69,23 @@ const getSearchResults = () => {
         }
         openWeatherSearchResults.value = null
     }, 500)
+}
+
+const router = useRouter()
+
+const previewCity = (city: LocationObject) => {
+    console.log(city)
+    router.push({
+        name: 'City',
+        params: {
+            city: city.name,
+            country: city.country
+        },
+        query: {
+            lat: city.lat,
+            lon: city.lon
+        }
+    })
 }
 </script>
 
