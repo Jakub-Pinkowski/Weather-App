@@ -1,5 +1,5 @@
 <template>
-    <main class="container text-light">
+    <main class="container text-white">
         <div class="pt-4 mb-8 relative">
             <input
                 type="text"
@@ -12,13 +12,20 @@
                 class="absolute bg-weather-secondary text-white w-full shadow-md py-2 px-1 top[66px]"
                 v-if="openWeatherSearchResults"
             >
-                <li
-                    v-for="searchResult in openWeatherSearchResults"
-                    :key="searchResult.id"
-                    class="py-2 cursor-pointer"
-                >
-                    {{ searchResult.properties.city }}
-                </li>
+                <p v-if="searchError">Something went wrong, please try again</p>
+                <p v-if="!searchError && openWeatherSearchResults === '0'">
+                    No results, try a different city
+                </p>
+                <template v-else>
+                    <li
+                        v-for="searchResult in openWeatherSearchResults"
+                        :key="searchResult.lat"
+                        class="py-2 cursor-pointer"
+                    >
+                        {{ searchResult.name }}, {{ searchResult.country
+                        }}<span v-if="searchResult.state">, {{ searchResult.state }}</span>
+                    </li>
+                </template>
             </ul>
         </div>
     </main>
@@ -32,16 +39,21 @@ const openWeatherAPI_KEY = '5515a667829df13bed05d2662aaf92fe'
 const searchQuery = ref('')
 const queryTimeout = ref(0)
 const openWeatherSearchResults = ref(null)
+const searchError = ref(false)
 
 const getSearchResults = () => {
     clearTimeout(queryTimeout.value)
     queryTimeout.value = setTimeout(async () => {
         if (searchQuery.value !== '') {
-            const result = await axios.get(
-                `https://api.openweathermap.org/geo/1.0/direct?q=${searchQuery.value}&limit=5&appid=${openWeatherAPI_KEY}`
-            )
-            console.log(result.data)
-            openWeatherSearchResults.value = result.data.features
+            try {
+                const result = await axios.get(
+                    `https://api.openweathermap.org/geo/1.0/direct?q=${searchQuery.value}&limit=5&appid=${openWeatherAPI_KEY}`
+                )
+                console.log(result.data)
+                openWeatherSearchResults.value = result.data
+            } catch (error) {
+                searchError.value = true
+            }
             return
         }
         openWeatherSearchResults.value = null
