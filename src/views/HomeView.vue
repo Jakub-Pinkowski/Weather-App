@@ -13,7 +13,7 @@
                 v-if="openWeatherSearchResults"
             >
                 <p v-if="searchError">Something went wrong, please try again</p>
-                <p v-if="!searchError && openWeatherSearchResults === '0'">
+                <p v-if="!searchError && openWeatherSearchResults === null">
                     No results, try a different city
                 </p>
                 <template v-else>
@@ -35,10 +35,19 @@
 import axios from 'axios'
 import { ref } from 'vue'
 
+interface LocationObject {
+    name: string
+    local_names: Record<string, string>
+    lat: number
+    lon: number
+    country: string
+    state?: string
+}
+
 const openWeatherAPI_KEY = '5515a667829df13bed05d2662aaf92fe'
 const searchQuery = ref('')
 const queryTimeout = ref(0)
-const openWeatherSearchResults = ref(null)
+const openWeatherSearchResults = ref<LocationObject[] | null>(null) // Change the type here
 const searchError = ref(false)
 
 const getSearchResults = () => {
