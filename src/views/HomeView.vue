@@ -13,7 +13,7 @@
                 v-if="openWeatherSearchResults"
             >
                 <p v-if="searchError">Something went wrong, please try again</p>
-                <p v-if="!searchError && openWeatherSearchResults === null">
+                <p v-if="!searchError && openWeatherSearchResults.length === 0">
                     No results, try a different city
                 </p>
                 <template v-else>
