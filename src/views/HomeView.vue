@@ -76,7 +76,7 @@ const router = useRouter()
 const previewCity = (city: LocationObject) => {
     console.log(city)
     router.push({
-        name: 'City',
+        name: 'cityView',
         params: {
             city: city.name,
             country: city.country
