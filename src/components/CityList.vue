@@ -1,14 +1,18 @@
 <template>
     <div v-for="city in savedCities" :key="city.id">
-        <CityCard :city="city" />
+        <CityCard :city="city" @click="goToCityView(city)" />
     </div>
+    <p v-if="savedCities.length === 0">
+        No saved cities, add one by searching for it
+    </p>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios'
 import type { AxiosResponse } from 'axios'
 import { ref } from 'vue'
-import CityCard from './CityCard.vue';
+import CityCard from './CityCard.vue'
+import { useRouter } from 'vue-router'
 
 interface Location {
     id: string
@@ -46,4 +50,20 @@ const getCities = async () => {
 }
 
 await getCities()
+
+const router = useRouter()
+
+const goToCityView = (city: Location) => {
+    router.push({
+        name: 'cityView',
+        params: {
+            city: city.city,
+            country: city.country
+        },
+        query: {
+            lat: city.coordinates.lat,
+            lon: city.coordinates.lon
+        }
+    })
+}
 </script>
