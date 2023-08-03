@@ -1,11 +1,14 @@
 <template>
-    <div></div>
+    <div v-for="city in savedCities" :key="city.id">
+        <CityCard :city="city" />
+    </div>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios'
 import type { AxiosResponse } from 'axios'
 import { ref } from 'vue'
+import CityCard from './CityCard.vue';
 
 interface Location {
     id: string
@@ -15,6 +18,7 @@ interface Location {
         lat: string | string[]
         lon: string | string[]
     }
+    weather?: any
 }
 
 const API = '5515a667829df13bed05d2662aaf92fe'
@@ -34,6 +38,12 @@ const getCities = async () => {
             )
         })
         const weatherData = await Promise.all(requests)
+
+        weatherData.map((weather, index) => {
+            savedCities.value[index].weather = weather.data
+        })
     }
 }
+
+await getCities()
 </script>
