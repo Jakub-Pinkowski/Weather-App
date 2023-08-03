@@ -83,7 +83,8 @@ const previewCity = (city: LocationObject) => {
         },
         query: {
             lat: city.lat,
-            lon: city.lon
+            lon: city.lon,
+            preview: 'true'
         }
     })
 }
