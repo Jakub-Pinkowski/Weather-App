@@ -73,12 +73,20 @@
                 </div>
             </div>
         </div>
+
+        <div
+            class="flex items-center gap-2 py-12 text-white cursor-pointer duration-150 hover:text-red-500"
+            @click="deleteCity"
+        >
+            <i class="fa-solid fa-trash"></i>
+            <p>Delete city</p>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const API = '5515a667829df13bed05d2662aaf92fe'
@@ -109,7 +117,18 @@ const getForecastData = async () => {
 
 const weatherData = await getWeatherData()
 const forecastData = await getForecastData()
-console.log(weatherData)
-console.log(forecastData)
-console.log(route.query)
+
+const router = useRouter()
+
+const deleteCity = () => {
+    const savedCitiesData = localStorage.getItem('savedCities')
+    if (savedCitiesData) {
+        const savedCities = JSON.parse(savedCitiesData)
+        const updatedSavedCities = savedCities.filter(
+            (city: { id: string }) => city.id !== route.query.id
+        )
+        localStorage.setItem('savedCities', JSON.stringify(updatedSavedCities))
+    }
+    router.push({ name: 'home' })
+}
 </script>

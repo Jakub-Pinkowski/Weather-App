@@ -61,8 +61,9 @@ const goToCityView = (city: Location) => {
             country: city.country
         },
         query: {
+            id: city.id,
             lat: city.coordinates.lat,
-            lon: city.coordinates.lon
+            lon: city.coordinates.lon,
         }
     })
 }
