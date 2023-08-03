@@ -21,13 +21,28 @@
                         day: 'numeric'
                     })
                 }}
-                {{ 
+                {{
                     new Date().toLocaleTimeString('en-UK', {
                         hour: 'numeric',
                         minute: 'numeric'
                     })
                 }}
             </p>
+            <p class="text-8xl mb-8">{{ Math.round(weatherData.main.temp) }}°C</p>
+            <div class="text-center">
+                <p>
+                    Feels like
+                    {{ Math.round(weatherData.main.feels_like) }}°C
+                </p>
+                <p class="capitalize">
+                    {{ weatherData.weather[0].description }}
+                </p>
+                <img
+                    class="w-[150px] h-auto"
+                    :src="`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`"
+                    alt="weather_conditions" 
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -45,7 +60,7 @@ const getWeatherData = async () => {
             `https://api.openweathermap.org/data/2.5/weather?lat=${route.query.lat}&lon=${route.query.lon}&appid=${API}&units=metric`
         )
 
-        return weatherData
+        return weatherData.data
     } catch (error) {
         console.log(error)
     }
