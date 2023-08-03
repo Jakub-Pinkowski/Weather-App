@@ -45,10 +45,10 @@
 
         <hr class="border-white border-opacity-10 border w-full" />
 
-        <!-- 3 Hour Forecast -->
+        <!-- Next 24 hours -->
         <div class="max-w-screen-md w-full py-12">
             <div class="mx-8 text-white">
-                <h2 class="mb-4">3 Hour Forecast</h2>
+                <h2 class="mb-4">Next 24 hours</h2>
                 <div class="flex gap-10">
                     <div
                         class="flex flex-col gap-4 items-center"
@@ -68,9 +68,7 @@
                             :src="`https://openweathermap.org/img/wn/${hour.weather[0].icon}.png`"
                             alt="weather_conditions"
                         />
-                        <p class="text-xl">
-                            {{  Math.round(hour.main.temp) }}°C
-                        </p>
+                        <p class="text-xl">{{ Math.round(hour.main.temp) }}°C</p>
                     </div>
                 </div>
             </div>
