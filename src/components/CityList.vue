@@ -2,9 +2,7 @@
     <div v-for="city in savedCities" :key="city.id">
         <CityCard :city="city" @click="goToCityView(city)" />
     </div>
-    <p v-if="savedCities.length === 0">
-        No saved cities, add one by searching for it
-    </p>
+    <p v-if="savedCities.length === 0">No saved cities, add one by searching for it</p>
 </template>
 
 <script setup lang="ts">
@@ -43,6 +41,8 @@ const getCities = async () => {
         })
         const weatherData = await Promise.all(requests)
 
+        await new Promise((resolve) => setTimeout(resolve, 500))
+
         weatherData.map((weather, index) => {
             savedCities.value[index].weather = weather.data
         })
@@ -63,7 +63,7 @@ const goToCityView = (city: Location) => {
         query: {
             id: city.id,
             lat: city.coordinates.lat,
-            lon: city.coordinates.lon,
+            lon: city.coordinates.lon
         }
     })
 }

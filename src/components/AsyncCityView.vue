@@ -109,6 +109,8 @@ const getForecastData = async () => {
             `https://api.openweathermap.org/data/2.5/forecast?lat=${route.query.lat}&lon=${route.query.lon}&appid=${API}&units=metric`
         )
 
+        await new Promise((resolve) => setTimeout(resolve, 500))
+
         return forecastData.data
     } catch (error) {
         console.log(error)
