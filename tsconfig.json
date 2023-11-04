@@ -7,5 +7,7 @@
         {
             "path": "./tsconfig.app.json"
         }
-    ]
+    ],
+    "exclude": ["cypress.config.ts", "cypress", "node_modules"],
+    "types": ["cypress"]
 }
