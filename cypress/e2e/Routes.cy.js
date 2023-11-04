@@ -21,5 +21,14 @@ describe('E2E Test', () => {
         // Check if the website redirects to the correct route
         cy.url().should('include', '/Mosina')
 
+        // Check if there is an "i" element, the element should have a class of "fa-plus" in the navbar to add the city to favorites
+        cy.get('i').should('have.class', 'fa-plus')
+
+        // Pick i with fa-plus class and click on it
+        cy.get('i.fa-plus').click()
+
+        // Check if city "Mosina" was added to local storage as "savedCities"
+        cy.window().its('localStorage.savedCities').should('include', 'Mosina')
+
     })
 })
